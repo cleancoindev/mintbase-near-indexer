@@ -25,7 +25,7 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
   eprintln!("connected to db");
 
   let manager =
-    ConnectionManager::<PgConnection>::new("postgres://flux:flux@localhost:5432/mintbase");
+    ConnectionManager::<PgConnection>::new("postgres://flux:flux@2.tcp.ngrok.io:16510/mintbase");
   Pool::builder()
     .build(manager)
     .unwrap_or_else(|_| panic!("Error connecting to db"))
