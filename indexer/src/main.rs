@@ -2,7 +2,7 @@
 extern crate diesel;
 
 use actix;
-use clap::derive::Clap;
+// use clap::derive::Clap;
 use std::env;
 use std::io;
 use tokio::sync::mpsc;
