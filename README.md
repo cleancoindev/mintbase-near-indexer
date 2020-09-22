@@ -17,15 +17,15 @@ sudo apt-get install llvm clang librocksdb-dev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 ## Close Terminal and reboot 
-`cargo` and `rustup` should now be in your path
+`cargo` and `rustup` should now be in your path so running `cargo --version` should show something
 
 ## Add git ssh keys to your github profile
 ```
-$ ssh-keygen -t rsa -b 4096 -C "nate@mintbase.io"
+$ ssh-keygen -t rsa -b 4096 -C "email@myemail.io"
 $ cat ~/.ssh/id_rsa.pub
 ```
 
-## Init the indexer core
+## Init the Indexer Core
 
 ```
 $ mkdir ~/.near && mkdir ~/.near/testnet
@@ -35,6 +35,8 @@ $ cargo run --release -- --home-dir ~/.near/testnet init --chain-id testnet --do
 $ rm -rf ~/near/.testnet/config.json
 ```
 
+## Clone the Mintbase indexer
+What you'll edit 
 
 ```
 $ git clone https://github.com/Mintbase/mintbase-near-indexer
