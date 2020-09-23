@@ -1,9 +1,8 @@
 use super::schema::*;
 use bigdecimal::BigDecimal;
-use chrono::{DateTime, NaiveDateTime};
+use chrono::NaiveDateTime;
 use serde_json::Value;
 use std::str::FromStr;
-use std::time::SystemTime;
 
 fn string_value_to_date(date_val: &Value) -> NaiveDateTime {
   let date_str = date_val.as_str().unwrap().to_string();

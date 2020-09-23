@@ -2,19 +2,15 @@
 extern crate diesel;
 
 use actix;
-use clap::derive::Clap;
-use std::env;
-use std::io;
+use clap::Clap;
 use tokio::sync::mpsc;
 use tracing_subscriber::EnvFilter;
 
-use configs::{init_logging, Opts, SubCommand};
+use configs::{Opts, SubCommand};
 use diesel::{
   prelude::*,
   r2d2::{ConnectionManager, Pool},
 };
-use std::error::Error;
-use tokio_diesel::*;
 
 mod configs;
 mod db;
@@ -25,7 +21,7 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
   eprintln!("connected to db");
 
   let manager =
-    ConnectionManager::<PgConnection>::new("postgres://flux:flux@2.tcp.ngrok.io:16510/mintbase");
+    ConnectionManager::<PgConnection>::new("postgres://flux:flux@0.tcp.ngrok.io:17597/mintbase");
   Pool::builder()
     .build(manager)
     .unwrap_or_else(|_| panic!("Error connecting to db"))
@@ -49,7 +45,6 @@ async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>
 }
 
 fn main() {
-  println!("start indexer!");
   openssl_probe::init_ssl_cert_env_vars();
 
   let env_filter = EnvFilter::new(
@@ -65,6 +60,8 @@ fn main() {
   let home_dir = opts
     .home_dir
     .unwrap_or(std::path::PathBuf::from(near_indexer::get_default_home()));
+
+  // let home_dir = std::path::PathBuf::from(near_indexer::get_default_home();
 
   match opts.subcmd {
     SubCommand::Run => {
