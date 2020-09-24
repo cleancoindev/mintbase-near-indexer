@@ -12,6 +12,8 @@ use diesel::{
   r2d2::{ConnectionManager, Pool},
 };
 
+// postgres://flux:flux@https://34.72.25.82/:5432/mintbase
+
 mod configs;
 mod db;
 
@@ -21,7 +23,9 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
   eprintln!("connected to db");
 
   let manager =
-    ConnectionManager::<PgConnection>::new("postgres://flux:flux@0.tcp.ngrok.io:17597/mintbase");
+    ConnectionManager::<PgConnection>::new("postgres://flux:flux@localhost:5432/mintbase");
+
+  // eprintln!("connected to db {:?}", manager);
   Pool::builder()
     .build(manager)
     .unwrap_or_else(|_| panic!("Error connecting to db"))
