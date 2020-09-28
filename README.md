@@ -13,7 +13,7 @@ e2-standard-4 (4 vCPUs, 16 GB memory)
 ```
 sudo apt install git-all
 sudo apt-get install build-essential
-sudo apt-get install llvm clang librocksdb-dev
+sudo apt-get install llvm clang librocksdb-dev libpq-dev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
@@ -24,7 +24,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ## Add git ssh keys to your github profile
 
 ```
-$ ssh-keygen -t rsa -b 4096 -C "email@myemail.io"
+$ ssh-keygen -t rsa -b 4096 -C "nate@mintbase.io"
 $ cat ~/.ssh/id_rsa.pub
 ```
 
@@ -35,7 +35,6 @@ $ mkdir ~/.near && mkdir ~/.near/testnet
 $ git clone git@github.com:nearprotocol/nearcore.git
 $ cd nearcore/tools/indexer/example
 $ cargo run --release -- --home-dir ~/.near/testnet init --chain-id testnet --download
-$ rm -rf ~/near/.testnet/config.json
 ```
 
 ## Clone the Mintbase indexer
@@ -43,8 +42,17 @@ $ rm -rf ~/near/.testnet/config.json
 What you'll edit
 
 ```
+$ cd ~
 $ git clone https://github.com/Mintbase/mintbase-near-indexer
-$ mv ~/mintbase-near-inder/config.json ~/.ssh/testnet/
+```
+
+## Move the config file over to `.near/testnet`
+
+Look at this file a bit, once you start the indexer below the config only gets read once, notice the shard number and block horizon
+
+```
+$ rm -rf ~/near/.testnet/config.json
+$ mv ~/mintbase-near-indexer/config.json ~/.near/testnet/
 ```
 
 ## Start The indexer
