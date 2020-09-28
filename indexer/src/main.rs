@@ -31,6 +31,23 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
     .unwrap_or_else(|_| panic!("Error connecting to db"))
 }
 
+// async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
+//   let pool = db_connect().await;
+
+//   eprintln!("listening to blocks");
+
+//   while let Some(block) = stream.recv().await {
+//     eprintln!("Block height {:?}", block.block.header.height);
+//     for outcome in block.receipt_execution_outcomes {
+//       let receipt = db::continue_if_valid_mintbase_receipt(outcome);
+//       if receipt.is_none() {
+//         continue;
+//       }
+//       db::process_logs(&pool, receipt.unwrap()).await;
+//     }
+//   }
+// }
+
 async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
   let pool = db_connect().await;
 
@@ -38,12 +55,13 @@ async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>
 
   while let Some(block) = stream.recv().await {
     eprintln!("Block height {:?}", block.block.header.height);
-    for outcome in block.outcomes {
-      let receipt = db::continue_if_valid_mintbase_receipt(outcome);
-      if receipt.is_none() {
+    for tx_res in block.receipt_execution_outcomes {
+      let (_, outcome) = tx_res;
+      let outcome = db::continue_if_valid_mintbase_receipt(outcome);
+      if outcome.is_none() {
         continue;
       }
-      db::process_logs(&pool, receipt.unwrap()).await;
+      db::process_logs(&pool, outcome.unwrap()).await;
     }
   }
 }
