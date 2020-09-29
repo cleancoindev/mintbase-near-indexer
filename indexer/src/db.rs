@@ -4,11 +4,7 @@ use near_indexer::near_primitives::views::{
 // use near_indexer::ExecutionOutcomeWithIdView;
 use serde_json::{Result, Value};
 
-use bigdecimal::BigDecimal;
-use std::str::FromStr;
-
 use diesel::{
-  pg::upsert::*,
   prelude::*,
   r2d2::{ConnectionManager, Pool},
 };
@@ -17,10 +13,21 @@ use tokio_diesel::*;
 mod schema;
 mod structs;
 
+pub fn check_is_minthouse(account: String) -> bool {
+  let haystack: Vec<_> = account.split(".").collect();
+
+  if haystack.contains(&"minthouse") {
+    println!("YEs!!!!!!!!");
+
+    return true;
+  }
+  return false;
+}
+
 pub fn continue_if_valid_mintbase_receipt(
   execution_outcome_with_id: ExecutionOutcomeWithIdView,
 ) -> Option<ExecutionOutcomeView> {
-  if execution_outcome_with_id.outcome.executor_id != "minthouse.testnet" {
+  if check_is_minthouse(execution_outcome_with_id.outcome.executor_id.to_string()) == false {
     return None;
   }
 
@@ -55,6 +62,9 @@ pub async fn execute_log(
   if log_type == &"store_creation".to_string() {
     println!("added store son!!!!");
     add_store(pool, params).await;
+  } else if log_type == &"thing_creation".to_string() {
+    println!("added store son!!!!");
+    add_thing(pool, params).await;
   }
 }
 
@@ -68,4 +78,31 @@ pub async fn add_store(pool: &Pool<ConnectionManager<PgConnection>>, params: &Va
     .execute_async(pool)
     .await
     .expect("something went wrong while trying to insert into markets");
+}
+
+pub async fn add_thing(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let thing: structs::Thing = structs::Thing::from_args(params);
+
+  println!("store to addd!----{:?}", thing);
+
+  diesel::insert_into(schema::things::table)
+    .values(thing)
+    .execute_async(pool)
+    .await
+    .expect("something went wrong while trying to insert into markets");
+}
+
+#[test]
+fn test_new() {
+  let context = check_is_minthouse("contract.minthouse.testnet".to_string());
+
+  assert_eq!(context, true);
+
+  let context2 = check_is_minthouse("minthouse.testnet".to_string());
+
+  assert_eq!(context2, true);
+
+  let context3 = check_is_minthouse("minthouese.testnet".to_string());
+
+  assert_eq!(context3, false);
 }

@@ -11,7 +11,6 @@ table! {
 		name -> Text,
 		symbol -> Text,
 		totalSupply -> BigInt,
-		timestamp -> Text,
 		burned -> Bool,
 		tokenCount -> Numeric,
 		boughtCount -> Numeric,
@@ -24,19 +23,17 @@ table! {
 things (
 	id,
 	minter,
-	timestamp,
 	burned,
 	forSale,
-	metaId
-
+	metaId,
+	resolveStore
 ) {
 	id -> Text,
 	minter -> Text,
-	timestamp -> Text,
-	symbol -> Text,
-	metaId -> Text,
-	forSale -> Bool,
 	burned -> Bool,
+	forSale -> Bool,
+	metaId -> Text,
+	resolveStore -> Text,
 	}
 }
 

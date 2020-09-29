@@ -12,8 +12,6 @@ use diesel::{
   r2d2::{ConnectionManager, Pool},
 };
 
-// postgres://flux:flux@https://34.72.25.82/:5432/mintbase
-
 mod configs;
 mod db;
 
@@ -31,27 +29,8 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
     .unwrap_or_else(|_| panic!("Error connecting to db"))
 }
 
-// async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
-//   let pool = db_connect().await;
-
-//   eprintln!("listening to blocks");
-
-//   while let Some(block) = stream.recv().await {
-//     eprintln!("Block height {:?}", block.block.header.height);
-//     for outcome in block.receipt_execution_outcomes {
-//       let receipt = db::continue_if_valid_mintbase_receipt(outcome);
-//       if receipt.is_none() {
-//         continue;
-//       }
-//       db::process_logs(&pool, receipt.unwrap()).await;
-//     }
-//   }
-// }
-
 async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
   let pool = db_connect().await;
-
-  eprintln!("listening to blocks");
 
   while let Some(block) = stream.recv().await {
     eprintln!("Block height {:?}", block.block.header.height);

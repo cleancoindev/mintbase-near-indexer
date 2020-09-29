@@ -79,10 +79,10 @@ impl Store {
 pub struct Thing {
   id: String,
   minter: String,
-  timestamp: String,
   burned: bool,
   forSale: bool,
   metaId: String,
+  resolveStore: String,
 }
 
 impl Thing {
@@ -90,10 +90,10 @@ impl Thing {
     Self {
       id: args["id"].as_str().unwrap().to_string(),
       minter: args["minter"].as_str().unwrap().to_string(),
-      timestamp: args["timestamp"].as_str().unwrap().to_string(),
       burned: false,
       forSale: false,
       metaId: args["metaId"].as_str().unwrap().to_string(),
+      resolveStore: args["store"].as_str().unwrap().to_string(),
     }
   }
 }
