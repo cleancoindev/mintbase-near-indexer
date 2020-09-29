@@ -20,14 +20,16 @@ pub fn check_is_minthouse(account: String) -> bool {
     println!("YEs!!!!!!!!");
 
     return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 pub fn continue_if_valid_mintbase_receipt(
   execution_outcome_with_id: ExecutionOutcomeWithIdView,
 ) -> Option<ExecutionOutcomeView> {
   if check_is_minthouse(execution_outcome_with_id.outcome.executor_id.to_string()) == false {
+    println!("check_is_minthouse!!!!!!!!");
     return None;
   }
 
@@ -36,6 +38,7 @@ pub fn continue_if_valid_mintbase_receipt(
     ExecutionStatusView::SuccessReceiptId(receipt_id) => None,
     _ => return None,
   };
+  println!("past ----- check_is_minthouse-------------!!!!!!!!");
 
   return Some(execution_outcome_with_id.outcome);
 }
@@ -59,6 +62,7 @@ pub async fn execute_log(
   log_type: &Value,
   params: &Value,
 ) {
+  println!("log_type -----------------{:?}", log_type);
   if log_type == &"store_creation".to_string() {
     println!("added store son!!!!");
     add_store(pool, params).await;
