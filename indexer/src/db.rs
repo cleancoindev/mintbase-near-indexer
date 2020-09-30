@@ -17,8 +17,6 @@ pub fn check_is_minthouse(account: String) -> bool {
   let haystack: Vec<_> = account.split(".").collect();
 
   if haystack.contains(&"minthouse") {
-    println!("YEs!!!!!!!!");
-
     return true;
   } else {
     return false;
@@ -29,7 +27,6 @@ pub fn continue_if_valid_mintbase_receipt(
   execution_outcome_with_id: ExecutionOutcomeWithIdView,
 ) -> Option<ExecutionOutcomeView> {
   if check_is_minthouse(execution_outcome_with_id.outcome.executor_id.to_string()) == false {
-    println!("check_is_minthouse!!!!!!!!");
     return None;
   }
 
@@ -38,7 +35,6 @@ pub fn continue_if_valid_mintbase_receipt(
     ExecutionStatusView::SuccessReceiptId(receipt_id) => None,
     _ => return None,
   };
-  println!("past ----- check_is_minthouse-------------!!!!!!!!");
 
   return Some(execution_outcome_with_id.outcome);
 }
@@ -69,6 +65,7 @@ pub async fn execute_log(
   } else if log_type == &"thing_creation".to_string() {
     println!("added store son!!!!");
     add_thing(pool, params).await;
+    add_token(pool, params).await;
   }
 }
 
@@ -87,10 +84,28 @@ pub async fn add_store(pool: &Pool<ConnectionManager<PgConnection>>, params: &Va
 pub async fn add_thing(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
   let thing: structs::Thing = structs::Thing::from_args(params);
 
-  println!("store to addd!----{:?}", thing);
-
   diesel::insert_into(schema::things::table)
     .values(thing)
+    .execute_async(pool)
+    .await
+    .expect("something went wrong while trying to insert into markets");
+}
+
+pub async fn add_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let token: structs::Token = structs::Token::from_args(params);
+
+  diesel::insert_into(schema::tokens::table)
+    .values(token)
+    .execute_async(pool)
+    .await
+    .expect("something went wrong while trying to insert into markets");
+}
+
+pub async fn add_user(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let user: structs::User = structs::User::from_args(params);
+
+  diesel::insert_into(schema::users::table)
+    .values(user)
     .execute_async(pool)
     .await
     .expect("something went wrong while trying to insert into markets");

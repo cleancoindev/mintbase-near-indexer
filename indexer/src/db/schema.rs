@@ -43,17 +43,21 @@ tokens (
 	tokenId,
 	metaId,
 	price,
-	burend,
+	burned,
 	state,
 	transferCount,
+	storeId,
+	ownerId
 ) {
 	id -> Text,
 	tokenId -> Text,
 	metaId -> Text,
 	price -> Text,
-	burend -> Bool,
+	burned -> Bool,
 	state -> Text,
-	transferCount -> BigInt,
+	transferCount -> Numeric,
+	storeId -> Text,
+	ownerId -> Text,
 	}
 }
 
