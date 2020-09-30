@@ -71,16 +71,17 @@ pub struct Token {
 
 impl Token {
   pub fn from_args(args: &Value) -> Self {
+    println!("token args========={:?}", args);
     Self {
       id: args["id"].as_str().unwrap().to_string(),
       tokenId: args["tokenId"].as_str().unwrap().to_string(),
       metaId: args["metaId"].as_str().unwrap().to_string(),
-      price: args["price"].as_str().unwrap().to_string(),
+      price: "0".to_string(),
       burned: false,
-      state: args["state"].as_str().unwrap().to_string(),
+      state: "1".to_string(),
       transferCount: BigDecimal::from_str("1").unwrap(),
-      storeId: args["storeId"].as_str().unwrap().to_string(),
-      ownerId: args["ownerId"].as_str().unwrap().to_string(),
+      storeId: args["store"].as_str().unwrap().to_string(),
+      ownerId: args["minter"].as_str().unwrap().to_string(),
     }
   }
 }
