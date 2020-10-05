@@ -22,75 +22,87 @@ SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
---
--- TOC entry 202 (class 1259 OID 16822)
--- Name: stores; Type: TABLE; Schema: public; Owner: flux
---
 
-CREATE TABLE public.stores (
-    id text,
-    name text,
-    symbol text,
+
+-- Table: public.stores
+
+-- DROP TABLE public.stores;
+
+CREATE TABLE public.stores
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
+    symbol text COLLATE pg_catalog."default",
     "totalSupply" numeric,
     "tokenCount" numeric,
     "boughtCount" numeric,
     "transferCount" numeric,
-    owner text
-);
+    owner text COLLATE pg_catalog."default",
+    "valueCount" numeric DEFAULT 0,
+    "timestamp" timestamp without time zone,
+    CONSTRAINT stores_pkey PRIMARY KEY (id)
+)
 
 
-ALTER TABLE public.stores OWNER TO flux;
+ALTER TABLE public.stores
+    OWNER to mintbase;
 
---
--- TOC entry 204 (class 1259 OID 16834)
--- Name: things; Type: TABLE; Schema: public; Owner: flux
---
+-- Table: public.things
 
-CREATE TABLE public.things (
-    id text,
-    minter text,
+-- DROP TABLE public.things;
+
+CREATE TABLE public.things
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    minter text COLLATE pg_catalog."default",
     "timestamp" timestamp without time zone,
     burned boolean,
     "forSale" boolean,
-    "metaId" text
-);
+    "metaId" text COLLATE pg_catalog."default",
+    "resolveStore" text COLLATE pg_catalog."default",
+    CONSTRAINT things_pkey PRIMARY KEY (id)
+)
 
 
-ALTER TABLE public.things OWNER TO flux;
+ALTER TABLE public.things
+    OWNER to mintbase;
 
---
--- TOC entry 205 (class 1259 OID 16840)
--- Name: tokens; Type: TABLE; Schema: public; Owner: flux
---
 
-CREATE TABLE public.tokens (
-    id text,
-    "tokenId" text,
-    "metaId" text,
-    price text,
+-- Table: public.tokens
+
+-- DROP TABLE public.tokens;
+
+CREATE TABLE public.tokens
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    "tokenId" text COLLATE pg_catalog."default",
+    "metaId" text COLLATE pg_catalog."default",
+    price text COLLATE pg_catalog."default",
     burned boolean,
-    "transferCount" numeric
-);
+    "transferCount" numeric,
+    state text COLLATE pg_catalog."default",
+    "storeId" text COLLATE pg_catalog."default" NOT NULL,
+    "ownerId" text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT tokens_pkey PRIMARY KEY (id)
+)
 
 
-ALTER TABLE public.tokens OWNER TO flux;
 
---
--- TOC entry 203 (class 1259 OID 16828)
--- Name: users; Type: TABLE; Schema: public; Owner: flux
---
+ALTER TABLE public.tokens
+    OWNER to mintbase;
 
-CREATE TABLE public.users (
-    id text,
-    avatar text
-);
+-- Table: public.users
+
+-- DROP TABLE public.users;
+
+CREATE TABLE public.users
+(
+    id text COLLATE pg_catalog."default" NOT NULL,
+    avatar text COLLATE pg_catalog."default",
+    CONSTRAINT users_pkey PRIMARY KEY (id)
+)
 
 
-ALTER TABLE public.users OWNER TO flux;
 
--- Completed on 2020-09-16 13:54:01 CEST
-
---
--- PostgreSQL database dump complete
---
-
+ALTER TABLE public.users
+    OWNER to mintbase;

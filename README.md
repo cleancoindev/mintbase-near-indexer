@@ -11,8 +11,8 @@ e2-standard-4 (4 vCPUs, 16 GB memory)
 ## Install essentials, git, dev tools, librocksdb, rust
 
 ```
-sudo apt install git-all
-sudo apt-get install build-essential
+sudo apt update && sudo apt upgrade
+sudo apt install git-all screen build-essential
 sudo apt-get install llvm clang librocksdb-dev libpq-dev
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
@@ -46,6 +46,15 @@ $ cd ~
 $ git clone https://github.com/Mintbase/mintbase-near-indexer
 ```
 
+### Istall Docker:
+
+[Install Docker on Debian](https://docs.docker.com/engine/install/debian/)
+[INstall Docker compose](https://docs.docker.com/compose/install/)
+
+### Permantly set the ulimit
+
+[Increase the number of files open](https://medium.com/@muhammadtriwibowo/set-permanently-ulimit-n-open-files-in-ubuntu-4d61064429a)
+
 ## Move the config file over to `.near/testnet`
 
 Look at this file a bit, once you start the indexer below the config only gets read once, notice the shard number and block horizon
@@ -55,16 +64,16 @@ $ rm -rf ~/near/.testnet/config.json
 $ mv ~/mintbase-near-indexer/config.json ~/.near/testnet/
 ```
 
-## Start The indexer
+## Increase space limits and Start The indexer
 
 ```
-$ ulimit -n 2100
 $ cd mintbase-near-indexer/indexer/
 $ cargo run --release -- --home-dir ~/.near/testnet run
 ```
 
 ## Running the docker postgres
 
+Install docker and docker-compose
 Running the postgress db:
 
 ```bash
@@ -72,3 +81,17 @@ bash scripts/start-docker.sh
 ```
 
 This will create a local copy of the Mintbase Indexer PostgreSQL database and run a REST api server on port **:3001**
+
+## Helpful Tools
+
+- 3.23.154.30
+- sudo du -sh ~/.near/testnet/data/
+
+## Keep Screen Running
+
+```cd
+$ screen
+//  Ctrl + A, and then Ctrl + D
+$ screen -ls | grep pts | cut -d. -f1 | awk '{print $1}' | xargs kill
+
+```
