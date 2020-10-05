@@ -36,7 +36,7 @@ async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>
     eprintln!("Block height {:?}", block.block.header.height);
     for tx_res in block.receipt_execution_outcomes {
       let (_, outcome) = tx_res;
-      let outcome = db::continue_if_valid_mintbase_receipt(outcome);
+      let outcome = db::continue_if_valid_mintbase_receipt(outcome.execution_outcome);
       if outcome.is_none() {
         continue;
       }

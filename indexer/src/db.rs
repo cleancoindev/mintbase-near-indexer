@@ -1,7 +1,7 @@
 use near_indexer::near_primitives::views::{
   ExecutionOutcomeView, ExecutionOutcomeWithIdView, ExecutionStatusView,
 };
-// use near_indexer::ExecutionOutcomeWithIdView;
+// use near_indexer::streamer::streamer::;
 use serde_json::{Result, Value};
 
 use diesel::{
