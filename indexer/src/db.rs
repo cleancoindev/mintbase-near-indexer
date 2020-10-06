@@ -1,13 +1,11 @@
-use near_indexer::near_primitives::views::{
-  ExecutionOutcomeView, ExecutionOutcomeWithIdView, ExecutionStatusView,
-};
-// use near_indexer::streamer::streamer::;
-use serde_json::{Result, Value};
-
 use diesel::{
   prelude::*,
   r2d2::{ConnectionManager, Pool},
 };
+use near_indexer::near_primitives::views::{
+  ExecutionOutcomeView, ExecutionOutcomeWithIdView, ExecutionStatusView,
+};
+use serde_json::{Result, Value};
 use tokio_diesel::*;
 
 mod schema;
@@ -50,6 +48,11 @@ pub async fn process_logs(
   }
 
   Ok(())
+}
+
+pub struct User {
+  id: String,
+  avitar: String,
 }
 
 // TODO: batch tx's
@@ -96,16 +99,6 @@ pub async fn add_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &Va
 
   diesel::insert_into(schema::tokens::table)
     .values(token)
-    .execute_async(pool)
-    .await
-    .expect("something went wrong while trying to insert into markets");
-}
-
-pub async fn add_user(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
-  let user: structs::User = structs::User::from_args(params);
-
-  diesel::insert_into(schema::users::table)
-    .values(user)
     .execute_async(pool)
     .await
     .expect("something went wrong while trying to insert into markets");

@@ -99,7 +99,7 @@ pub struct User {
 impl User {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      id: args["ownerId"].as_str().unwrap().to_string(),
+      id: args["id"].as_str().unwrap().to_string(),
       avitar: "any".to_string(),
     }
   }
