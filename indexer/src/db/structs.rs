@@ -20,7 +20,7 @@ impl Store {
   pub fn from_args(args: &Value) -> Self {
     Self {
       id: args["id"].as_str().unwrap().to_string(),
-      owner: args["owner_id"].as_str().unwrap().to_string(),
+      owner: args["ownerId"].as_str().unwrap().to_string(),
       name: args["name"].as_str().unwrap().to_string(),
       symbol: args["symbol"].as_str().unwrap().to_string(),
       boughtCount: BigDecimal::from_str("3").unwrap(),
