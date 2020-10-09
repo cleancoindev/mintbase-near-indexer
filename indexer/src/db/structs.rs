@@ -58,9 +58,9 @@ impl Thing {
 pub struct Token {
   tokenId: String,
   metaId: String,
-  // price: String,
+  price: String,
   burned: bool,
-  // state: String,
+  state: String,
   transferCount: BigDecimal,
   storeId: String,
   ownerId: String,
@@ -71,9 +71,9 @@ impl Token {
     Self {
       tokenId: args["token_id"].as_str().unwrap().to_string(),
       metaId: args["meta_id"].as_str().unwrap().to_string(),
-      // price: args["price"].as_str().unwrap().to_string(),
+      price: args["price"].as_str().unwrap().to_string(),
       burned: false,
-      // state: args["state"].as_str().unwrap().to_string(),
+      state: args["state"].as_str().unwrap().to_string(),
       transferCount: BigDecimal::from_str("1").unwrap(),
       storeId: args["store"].as_str().unwrap().to_string(),
       ownerId: args["minter"].as_str().unwrap().to_string(),
