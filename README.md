@@ -89,9 +89,18 @@ This will create a local copy of the Mintbase Indexer PostgreSQL database and ru
 
 ## Keep Screen Running
 
-```cd
+```
 $ screen
 //  Ctrl + A, and then Ctrl + D
 $ screen -ls | grep pts | cut -d. -f1 | awk '{print $1}' | xargs kill
 
+```
+
+
+
+## Log into docker postgress
+```
+$ sudo docker ps -a
+$ sudo docker exec -it ecc3bf1685fb bash
+$ psql mintbase flux
 ```

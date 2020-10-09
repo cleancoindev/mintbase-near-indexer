@@ -34,7 +34,6 @@ impl Store {
 #[allow(non_snake_case)]
 #[derive(Insertable, Clone, Debug)]
 pub struct Thing {
-  id: String,
   minter: String,
   burned: bool,
   forSale: bool,
@@ -45,7 +44,6 @@ pub struct Thing {
 impl Thing {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      id: args["meta_id"].as_str().unwrap().to_string(),
       minter: args["minter"].as_str().unwrap().to_string(),
       burned: false,
       forSale: false,
