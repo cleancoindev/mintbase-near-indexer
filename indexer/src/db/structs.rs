@@ -45,11 +45,11 @@ pub struct Thing {
 impl Thing {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      id: args["metaId"].as_str().unwrap().to_string(),
+      id: args["meta_id"].as_str().unwrap().to_string(),
       minter: args["minter"].as_str().unwrap().to_string(),
       burned: false,
       forSale: false,
-      metaId: args["metaId"].as_str().unwrap().to_string(),
+      metaId: args["meta_id"].as_str().unwrap().to_string(),
       resolveStore: args["store"].as_str().unwrap().to_string(),
     }
   }
@@ -77,8 +77,8 @@ impl Token {
         args["store"].as_str().unwrap().to_string(),
         args["id"].as_str().unwrap().to_string(),
       ),
-      tokenId: args["tokenId"].as_str().unwrap().to_string(),
-      metaId: args["metaId"].as_str().unwrap().to_string(),
+      tokenId: args["token_id"].as_str().unwrap().to_string(),
+      metaId: args["meta_id"].as_str().unwrap().to_string(),
       price: "0".to_string(),
       burned: false,
       state: "1".to_string(),
