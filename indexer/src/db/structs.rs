@@ -71,9 +71,9 @@ impl Token {
     Self {
       tokenId: args["token_id"].as_str().unwrap().to_string(),
       metaId: args["meta_id"].as_str().unwrap().to_string(),
-      price: "0".to_string(),
+      price: args["price"].as_str().unwrap().to_string(),
       burned: false,
-      state: "1".to_string(),
+      state: args["state"].as_str().unwrap().to_string(),
       transferCount: BigDecimal::from_str("1").unwrap(),
       storeId: args["store"].as_str().unwrap().to_string(),
       ownerId: args["minter"].as_str().unwrap().to_string(),
