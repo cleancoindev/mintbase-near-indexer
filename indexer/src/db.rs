@@ -66,8 +66,10 @@ pub async fn execute_log(
     println!("added store son!!!!");
     add_store(pool, params).await;
   } else if log_type == &"thing_creation".to_string() {
-    println!("added store son!!!!");
+    println!("added things son!!!!");
     add_thing(pool, params).await;
+  } else if log_type == &"token_creation".to_string() {
+    println!("added tokens son!!!!");
     add_token(pool, params).await;
   }
 }

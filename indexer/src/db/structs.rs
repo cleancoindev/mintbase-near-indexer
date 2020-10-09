@@ -56,7 +56,6 @@ impl Thing {
 #[allow(non_snake_case)]
 #[derive(Insertable, Clone, Debug)]
 pub struct Token {
-  id: String,
   tokenId: String,
   metaId: String,
   price: String,
@@ -70,11 +69,6 @@ pub struct Token {
 impl Token {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      id: format!(
-        "{}-{}",
-        args["store"].as_str().unwrap().to_string(),
-        args["id"].as_str().unwrap().to_string(),
-      ),
       tokenId: args["token_id"].as_str().unwrap().to_string(),
       metaId: args["meta_id"].as_str().unwrap().to_string(),
       price: "0".to_string(),
