@@ -71,6 +71,9 @@ pub async fn execute_log(
   } else if log_type == &"token_creation".to_string() {
     println!("added tokens son!!!!");
     add_token(pool, params).await;
+  } else if log_type == &"store_burned".to_string() {
+    println!("added tokens son!!!!");
+    burn_store(pool, params).await;
   }
 }
 
@@ -104,6 +107,16 @@ pub async fn add_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &Va
     .execute_async(pool)
     .await
     .expect("something went wrong while trying to insert into markets");
+}
+
+pub async fn burn_store(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let store_id = params["store_id"].as_str().unwrap().to_string();
+
+  diesel::update(schema::stores::table.filter(schema::stores::dsl::id.eq(store_id)))
+    .set(schema::stores::dsl::burned.eq(true))
+    .execute_async(pool)
+    .await
+    .expect("updated store burned failed");
 }
 
 #[test]

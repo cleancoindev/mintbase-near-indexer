@@ -5,6 +5,12 @@ table! {
 		owner,
 		name,
 		symbol,
+		totalSupply,
+		burned,
+		tokenCount,
+		boughtCount,
+		valueCount,
+		transferCount
 	) {
 		id -> Text,
 		owner -> Text,
