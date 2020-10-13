@@ -34,6 +34,7 @@ impl Store {
 #[allow(non_snake_case)]
 #[derive(Insertable, Clone, Debug)]
 pub struct Thing {
+  id: String,
   minter: String,
   burned: bool,
   forSale: bool,
@@ -44,6 +45,7 @@ pub struct Thing {
 impl Thing {
   pub fn from_args(args: &Value) -> Self {
     Self {
+      id: args["id"].as_str().unwrap().to_string(),
       minter: args["minter"].as_str().unwrap().to_string(),
       burned: false,
       forSale: false,
@@ -56,6 +58,7 @@ impl Thing {
 #[allow(non_snake_case)]
 #[derive(Insertable, Clone, Debug)]
 pub struct Token {
+  id: String,
   tokenId: String,
   metaId: String,
   price: String,
@@ -69,6 +72,7 @@ pub struct Token {
 impl Token {
   pub fn from_args(args: &Value) -> Self {
     Self {
+      id: args["id"].as_str().unwrap().to_string(),
       tokenId: args["token_id"].as_str().unwrap().to_string(),
       metaId: args["meta_id"].as_str().unwrap().to_string(),
       price: args["price"].as_str().unwrap().to_string(),
