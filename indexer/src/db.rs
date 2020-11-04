@@ -72,6 +72,8 @@ pub async fn execute_log(
     burn_store(pool, params).await;
   } else if log_type == &"token_transfered".to_string() {
     transfer_token(pool, params).await;
+  } else if log_type == &"burn_token".to_string() {
+    burn_token(pool, params).await;
   }
 }
 
@@ -123,6 +125,16 @@ pub async fn transfer_token(pool: &Pool<ConnectionManager<PgConnection>>, params
 
   diesel::update(schema::tokens::table.filter(schema::tokens::dsl::id.eq(token_key)))
     .set(schema::tokens::dsl::ownerId.eq(to_account))
+    .execute_async(pool)
+    .await
+    .expect("updated store burned failed");
+}
+
+pub async fn burn_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let token_key = params["token_key"].as_str().unwrap().to_string();
+
+  diesel::update(schema::tokens::table.filter(schema::tokens::dsl::id.eq(token_key)))
+    .set(schema::tokens::dsl::burned.eq(true))
     .execute_async(pool)
     .await
     .expect("updated store burned failed");
