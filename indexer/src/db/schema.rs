@@ -10,7 +10,7 @@ table! {
 		tokenCount,
 		boughtCount,
 		valueCount,
-		transferCount
+		transferCount,
 	) {
 		id -> Text,
 		owner -> Text,
@@ -40,6 +40,18 @@ things (
 	forSale -> Bool,
 	metaId -> Text,
 	resolveStore -> Text,
+	}
+}
+
+table! {
+minters (
+	account,
+	store,
+	enabled,
+) {
+	account -> Text,
+	store -> Text,
+	enabled -> Bool,
 	}
 }
 

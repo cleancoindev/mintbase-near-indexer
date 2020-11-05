@@ -85,6 +85,24 @@ impl Token {
   }
 }
 
+#[allow(non_snake_case)]
+#[derive(Insertable, Clone, Debug)]
+pub struct Minter {
+  account: String,
+  store: String,
+  enabled: bool,
+}
+
+impl Minter {
+  pub fn from_args(args: &Value) -> Self {
+    Self {
+      account: args["account"].as_str().unwrap().to_string(),
+      store: args["store"].as_str().unwrap().to_string(),
+      enabled: true,
+    }
+  }
+}
+
 #[derive(Insertable, Clone, Debug)]
 pub struct User {
   id: String,

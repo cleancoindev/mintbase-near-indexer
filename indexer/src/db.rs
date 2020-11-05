@@ -74,6 +74,10 @@ pub async fn execute_log(
     transfer_token(pool, params).await;
   } else if log_type == &"burn_token".to_string() {
     burn_token(pool, params).await;
+  } else if log_type == &"add_minter".to_string() {
+    add_minter(pool, params).await;
+  } else if log_type == &"renounce_minter".to_string() {
+    renounce_minter(pool, params).await;
   }
 }
 
@@ -107,6 +111,26 @@ pub async fn add_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &Va
     .execute_async(pool)
     .await
     .expect("something went wrong while trying to insert into markets");
+}
+
+pub async fn add_minter(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let minter: structs::Minter = structs::Minter::from_args(params);
+
+  diesel::insert_into(schema::minters::table)
+    .values(minter)
+    .execute_async(pool)
+    .await
+    .expect("something went wrong while trying to insert minter");
+}
+
+pub async fn renounce_minter(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let account = params["account"].as_str().unwrap().to_string();
+
+  diesel::update(schema::minters::table.filter(schema::minters::dsl::account.eq(account)))
+    .set(schema::minters::dsl::enabled.eq(false))
+    .execute_async(pool)
+    .await
+    .expect("updated renounce minter failed");
 }
 
 pub async fn burn_store(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
