@@ -1,4 +1,6 @@
 # Mintbase indexer
+[Mintbase](https://mintbase.io)
+[![CircleCI](https://circleci.com/gh/Mintbase/omni-site.svg?style=svg&circle-token=e0afb9021f602d8c83dc0f8a0874086e620fa166)](LINK)
 
 From Scratch, run a VM. It takes a long time to sync, half a day to download the headers and another half to catch up, doing this on a local machine will drive you insane. Everytime you turn off your machine the blocks will fly by and if it gets lost for a day, you have to start over
 
