@@ -78,6 +78,8 @@ pub async fn execute_log(
     add_minter(pool, params).await;
   } else if log_type == &"renounce_minter".to_string() {
     renounce_minter(pool, params).await;
+  } else if log_type == &"transfer_ownership".to_string() {
+    transfer_ownership(pool, params).await;
   }
 }
 
@@ -149,6 +151,17 @@ pub async fn transfer_token(pool: &Pool<ConnectionManager<PgConnection>>, params
 
   diesel::update(schema::tokens::table.filter(schema::tokens::dsl::id.eq(token_key)))
     .set(schema::tokens::dsl::ownerId.eq(to_account))
+    .execute_async(pool)
+    .await
+    .expect("updated store burned failed");
+}
+
+pub async fn transfer_ownership(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
+  let to_account = params["to_account"].as_str().unwrap().to_string();
+  let store = params["store"].as_str().unwrap().to_string();
+
+  diesel::update(schema::stores::table.filter(schema::stores::dsl::id.eq(store)))
+    .set(schema::stores::dsl::owner.eq(to_account))
     .execute_async(pool)
     .await
     .expect("updated store burned failed");
