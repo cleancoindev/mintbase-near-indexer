@@ -1,4 +1,4 @@
-# Mintbase indexer
+# Mintbase NEAR Indexer
 [Mintbase](https://mintbase.io)
 [![CircleCI](https://circleci.com/gh/Mintbase/mintbase-index-node.svg?style=svg&circle-token=e0afb9021f602d8c83dc0f8a0874086e620fa166)](LINK)
 
