@@ -14,7 +14,7 @@ mod structs;
 pub fn check_is_minthouse(account: String) -> bool {
   let haystack: Vec<_> = account.split(".").collect();
 
-  if haystack.contains(&"minthouse") {
+  if haystack.contains(&"unlock") {
     return true;
   } else {
     return false;
