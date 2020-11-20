@@ -62,7 +62,7 @@ $ git clone https://github.com/Mintbase/mintbase-near-indexer
 Look at this file a bit, once you start the indexer below the config only gets read once, notice the shard number and block horizon
 
 ```
-$ rm -rf ~/near/.testnet/config.json
+$ rm -rf ~/.near/testnet/config.json
 $ mv ~/mintbase-near-indexer/config.json ~/.near/testnet/
 ```
 
