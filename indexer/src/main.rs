@@ -17,6 +17,7 @@ mod db;
 
 use near_indexer;
 
+/// # Does some nea things
 pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
   eprintln!("connected to db");
 

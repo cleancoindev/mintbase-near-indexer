@@ -18,7 +18,7 @@ bigdecimal = "0.1.2"
 chrono = "0.4.13"
 near-indexer = { path = "../../nearcore/chain/indexer" }
 
-near-store = { git = "https://github.com/nearprotocol/nearcore", rev="89dde8c427afc36b66bccb76306cc34773430ca3" }
-near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="89dde8c427afc36b66bccb76306cc34773430ca3" }
-neard = { git = "https://github.com/nearprotocol/nearcore", rev="89dde8c427afc36b66bccb76306cc34773430ca3" }
-near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="89dde8c427afc36b66bccb76306cc34773430ca3" }
+near-store = { git = "https://github.com/nearprotocol/nearcore" }
+near-chain = { git = "https://github.com/nearprotocol/nearcore" }
+neard = { git = "https://github.com/nearprotocol/nearcore" }
+near-chain-configs = { git = "https://github.com/nearprotocol/nearcore" }
