@@ -33,15 +33,18 @@ pub async fn db_connect() -> Pool<ConnectionManager<PgConnection>> {
 async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
   let pool = db_connect().await;
 
-  while let Some(block) = stream.recv().await {
-    eprintln!("Block height {:?}", block.block.header.height);
-    for tx_res in block.receipt_execution_outcomes {
-      let (_, outcome) = tx_res;
-      let outcome = db::continue_if_valid_mintbase_receipt(outcome.execution_outcome);
-      if outcome.is_none() {
-        continue;
+  while let Some(streamer_message) = stream.recv().await {
+    eprintln!("Block height {:?}", streamer_message.block.header.height);
+
+    for chunk in streamer_message.chunks {
+      for outcome in chunk.receipt_execution_outcomes {
+        // let (_, outcome) = tx_res;
+        let outcome = db::continue_if_valid_mintbase_receipt(outcome.execution_outcome);
+        if outcome.is_none() {
+          continue;
+        }
+        db::process_logs(&pool, outcome.unwrap()).await;
       }
-      db::process_logs(&pool, outcome.unwrap()).await;
     }
   }
 }
@@ -70,6 +73,7 @@ fn main() {
       let indexer_config = near_indexer::IndexerConfig {
         home_dir,
         sync_mode: near_indexer::SyncModeEnum::FromInterruption,
+        await_for_node_synced: near_indexer::AwaitForNodeSyncedEnum::WaitForFullSync,
       };
       let indexer = near_indexer::Indexer::new(indexer_config);
       let stream = indexer.streamer();
