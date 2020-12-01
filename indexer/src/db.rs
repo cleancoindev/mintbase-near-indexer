@@ -179,15 +179,15 @@ pub async fn burn_token(pool: &Pool<ConnectionManager<PgConnection>>, params: &V
 
 #[test]
 fn test_new() {
-  let context = check_is_minthouse("contract.minthouse.testnet".to_string());
+  let context = check_is_minthouse("contract.unlock.testnet".to_string());
 
-  assert_eq!(context, true);
+  assert_eq!(context, true, "contract.unlock.testnet is true");
 
-  let context2 = check_is_minthouse("minthouse.testnet".to_string());
+  let context2 = check_is_minthouse("unlock.testnet".to_string());
 
   assert_eq!(context2, true);
 
-  let context3 = check_is_minthouse("minthouese.testnet".to_string());
+  let context3 = check_is_minthouse("unbock.testnet".to_string());
 
   assert_eq!(context3, false);
 }
