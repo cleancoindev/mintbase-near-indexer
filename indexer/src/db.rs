@@ -185,7 +185,7 @@ fn test_new() {
 
   let context2 = check_is_minthouse("unlock.testnet".to_string());
 
-  assert_eq!(context2, true);
+  assert_eq!(context2, true, "Run a test");
 
   let context3 = check_is_minthouse("unbock.testnet".to_string());
 
