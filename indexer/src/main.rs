@@ -35,12 +35,12 @@ async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>
 
   while let Some(streamer_message) = stream.recv().await {
     eprintln!("Block height {:?}", streamer_message.block.header.height);
+    db::update_indexer(&pool, streamer_message.block.header.height).await;
 
     for chunk in streamer_message.chunks {
       for outcome in chunk.receipt_execution_outcomes {
         let outcome = db::continue_if_valid_mintbase_receipt(outcome.execution_outcome);
 
-        // db::update_indexer(&pool, streamer_message.block.header.height).await;
         if outcome.is_none() {
           continue;
         }
