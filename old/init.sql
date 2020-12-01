@@ -17,31 +17,31 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: hdb_catalog; Type: SCHEMA; Schema: -; Owner: mintbase
+-- Name: hdb_catalog; Type: SCHEMA; Schema: -; Owner: flux
 --
 
 CREATE SCHEMA hdb_catalog;
 
 
-ALTER SCHEMA hdb_catalog OWNER TO mintbase;
+ALTER SCHEMA hdb_catalog OWNER TO flux;
 
 --
--- Name: hdb_pro_catalog; Type: SCHEMA; Schema: -; Owner: mintbase
+-- Name: hdb_pro_catalog; Type: SCHEMA; Schema: -; Owner: flux
 --
 
 CREATE SCHEMA hdb_pro_catalog;
 
 
-ALTER SCHEMA hdb_pro_catalog OWNER TO mintbase;
+ALTER SCHEMA hdb_pro_catalog OWNER TO flux;
 
 --
--- Name: hdb_views; Type: SCHEMA; Schema: -; Owner: mintbase
+-- Name: hdb_views; Type: SCHEMA; Schema: -; Owner: flux
 --
 
 CREATE SCHEMA hdb_views;
 
 
-ALTER SCHEMA hdb_views OWNER TO mintbase;
+ALTER SCHEMA hdb_views OWNER TO flux;
 
 --
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
@@ -58,7 +58,7 @@ COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
 
 
 --
--- Name: check_violation(text); Type: FUNCTION; Schema: hdb_catalog; Owner: mintbase
+-- Name: check_violation(text); Type: FUNCTION; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE FUNCTION hdb_catalog.check_violation(msg text) RETURNS boolean
@@ -70,30 +70,10 @@ CREATE FUNCTION hdb_catalog.check_violation(msg text) RETURNS boolean
 $$;
 
 
-ALTER FUNCTION hdb_catalog.check_violation(msg text) OWNER TO mintbase;
+ALTER FUNCTION hdb_catalog.check_violation(msg text) OWNER TO flux;
 
 --
--- Name: event_trigger_table_name_update(); Type: FUNCTION; Schema: hdb_catalog; Owner: mintbase
---
-
-CREATE FUNCTION hdb_catalog.event_trigger_table_name_update() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
-BEGIN
-  IF (NEW.table_schema, NEW.table_name) <> (OLD.table_schema, OLD.table_name)  THEN
-    UPDATE hdb_catalog.event_triggers
-    SET schema_name = NEW.table_schema, table_name = NEW.table_name
-    WHERE (schema_name, table_name) = (OLD.table_schema, OLD.table_name);
-  END IF;
-  RETURN NEW;
-END;
-$$;
-
-
-ALTER FUNCTION hdb_catalog.event_trigger_table_name_update() OWNER TO mintbase;
-
---
--- Name: hdb_schema_update_event_notifier(); Type: FUNCTION; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_schema_update_event_notifier(); Type: FUNCTION; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE FUNCTION hdb_catalog.hdb_schema_update_event_notifier() RETURNS trigger
@@ -118,10 +98,10 @@ CREATE FUNCTION hdb_catalog.hdb_schema_update_event_notifier() RETURNS trigger
 $$;
 
 
-ALTER FUNCTION hdb_catalog.hdb_schema_update_event_notifier() OWNER TO mintbase;
+ALTER FUNCTION hdb_catalog.hdb_schema_update_event_notifier() OWNER TO flux;
 
 --
--- Name: inject_table_defaults(text, text, text, text); Type: FUNCTION; Schema: hdb_catalog; Owner: mintbase
+-- Name: inject_table_defaults(text, text, text, text); Type: FUNCTION; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name text, tab_schema text, tab_name text) RETURNS void
@@ -137,10 +117,10 @@ CREATE FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name te
 $$;
 
 
-ALTER FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name text, tab_schema text, tab_name text) OWNER TO mintbase;
+ALTER FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name text, tab_schema text, tab_name text) OWNER TO flux;
 
 --
--- Name: insert_event_log(text, text, text, text, json); Type: FUNCTION; Schema: hdb_catalog; Owner: mintbase
+-- Name: insert_event_log(text, text, text, text, json); Type: FUNCTION; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, trigger_name text, op text, row_data json) RETURNS text
@@ -185,14 +165,14 @@ CREATE FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, 
 $$;
 
 
-ALTER FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, trigger_name text, op text, row_data json) OWNER TO mintbase;
+ALTER FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, trigger_name text, op text, row_data json) OWNER TO flux;
 
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
 
 --
--- Name: event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.event_invocation_logs (
@@ -205,10 +185,10 @@ CREATE TABLE hdb_catalog.event_invocation_logs (
 );
 
 
-ALTER TABLE hdb_catalog.event_invocation_logs OWNER TO mintbase;
+ALTER TABLE hdb_catalog.event_invocation_logs OWNER TO flux;
 
 --
--- Name: event_log; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.event_log (
@@ -227,10 +207,10 @@ CREATE TABLE hdb_catalog.event_log (
 );
 
 
-ALTER TABLE hdb_catalog.event_log OWNER TO mintbase;
+ALTER TABLE hdb_catalog.event_log OWNER TO flux;
 
 --
--- Name: event_triggers; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_triggers; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.event_triggers (
@@ -243,10 +223,10 @@ CREATE TABLE hdb_catalog.event_triggers (
 );
 
 
-ALTER TABLE hdb_catalog.event_triggers OWNER TO mintbase;
+ALTER TABLE hdb_catalog.event_triggers OWNER TO flux;
 
 --
--- Name: hdb_action; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_action (
@@ -257,10 +237,10 @@ CREATE TABLE hdb_catalog.hdb_action (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_action OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_action OWNER TO flux;
 
 --
--- Name: hdb_action_log; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action_log; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_action_log (
@@ -278,10 +258,10 @@ CREATE TABLE hdb_catalog.hdb_action_log (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_action_log OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_action_log OWNER TO flux;
 
 --
--- Name: hdb_action_permission; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action_permission; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_action_permission (
@@ -292,10 +272,10 @@ CREATE TABLE hdb_catalog.hdb_action_permission (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_action_permission OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_action_permission OWNER TO flux;
 
 --
--- Name: hdb_allowlist; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_allowlist; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_allowlist (
@@ -303,10 +283,10 @@ CREATE TABLE hdb_catalog.hdb_allowlist (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_allowlist OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_allowlist OWNER TO flux;
 
 --
--- Name: hdb_check_constraint; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_check_constraint; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_check_constraint AS
@@ -320,10 +300,10 @@ CREATE VIEW hdb_catalog.hdb_check_constraint AS
   WHERE (r.contype = 'c'::"char");
 
 
-ALTER TABLE hdb_catalog.hdb_check_constraint OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_check_constraint OWNER TO flux;
 
 --
--- Name: hdb_computed_field; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_computed_field; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_computed_field (
@@ -335,10 +315,10 @@ CREATE TABLE hdb_catalog.hdb_computed_field (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_computed_field OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_computed_field OWNER TO flux;
 
 --
--- Name: hdb_computed_field_function; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_computed_field_function; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_computed_field_function AS
@@ -356,10 +336,10 @@ CREATE VIEW hdb_catalog.hdb_computed_field_function AS
    FROM hdb_catalog.hdb_computed_field;
 
 
-ALTER TABLE hdb_catalog.hdb_computed_field_function OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_computed_field_function OWNER TO flux;
 
 --
--- Name: hdb_cron_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_cron_event_invocation_logs (
@@ -368,14 +348,14 @@ CREATE TABLE hdb_catalog.hdb_cron_event_invocation_logs (
     status integer,
     request json,
     response json,
-    created_at timestamp with time zone DEFAULT now()
+    created_at timestamp without time zone DEFAULT now()
 );
 
 
-ALTER TABLE hdb_catalog.hdb_cron_event_invocation_logs OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_cron_event_invocation_logs OWNER TO flux;
 
 --
--- Name: hdb_cron_events; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_events; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_cron_events (
@@ -384,16 +364,16 @@ CREATE TABLE hdb_catalog.hdb_cron_events (
     scheduled_time timestamp with time zone NOT NULL,
     status text DEFAULT 'scheduled'::text NOT NULL,
     tries integer DEFAULT 0 NOT NULL,
-    created_at timestamp with time zone DEFAULT now(),
+    created_at timestamp without time zone DEFAULT now(),
     next_retry_at timestamp with time zone,
     CONSTRAINT valid_status CHECK ((status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text])))
 );
 
 
-ALTER TABLE hdb_catalog.hdb_cron_events OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_cron_events OWNER TO flux;
 
 --
--- Name: hdb_cron_triggers; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_triggers; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_cron_triggers (
@@ -408,10 +388,10 @@ CREATE TABLE hdb_catalog.hdb_cron_triggers (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_cron_triggers OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_cron_triggers OWNER TO flux;
 
 --
--- Name: hdb_cron_events_stats; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_events_stats; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_cron_events_stats AS
@@ -427,10 +407,10 @@ CREATE VIEW hdb_catalog.hdb_cron_events_stats AS
           GROUP BY hdb_cron_events.trigger_name) ce ON ((ct.name = ce.trigger_name)));
 
 
-ALTER TABLE hdb_catalog.hdb_cron_events_stats OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_cron_events_stats OWNER TO flux;
 
 --
--- Name: hdb_custom_types; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_custom_types; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_custom_types (
@@ -438,10 +418,10 @@ CREATE TABLE hdb_catalog.hdb_custom_types (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_custom_types OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_custom_types OWNER TO flux;
 
 --
--- Name: hdb_foreign_key_constraint; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_foreign_key_constraint; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_foreign_key_constraint AS
@@ -479,10 +459,10 @@ CREATE VIEW hdb_catalog.hdb_foreign_key_constraint AS
   GROUP BY q.table_schema, q.table_name, q.constraint_name;
 
 
-ALTER TABLE hdb_catalog.hdb_foreign_key_constraint OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_foreign_key_constraint OWNER TO flux;
 
 --
--- Name: hdb_function; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_function; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_function (
@@ -493,10 +473,10 @@ CREATE TABLE hdb_catalog.hdb_function (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_function OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_function OWNER TO flux;
 
 --
--- Name: hdb_function_agg; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_function_agg; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_function_agg AS
@@ -540,10 +520,10 @@ CREATE VIEW hdb_catalog.hdb_function_agg AS
           WHERE ((pg_aggregate.aggfnoid)::oid = p.oid)))));
 
 
-ALTER TABLE hdb_catalog.hdb_function_agg OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_function_agg OWNER TO flux;
 
 --
--- Name: hdb_function_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_function_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_function_info_agg AS
@@ -560,18 +540,16 @@ CREATE VIEW hdb_catalog.hdb_function_info_agg AS
                     hdb_function_agg.input_arg_types,
                     hdb_function_agg.input_arg_names,
                     hdb_function_agg.default_args,
-                    ((EXISTS ( SELECT 1
+                    (EXISTS ( SELECT 1
                            FROM information_schema.tables
-                          WHERE (((tables.table_schema)::name = hdb_function_agg.return_type_schema) AND ((tables.table_name)::name = hdb_function_agg.return_type_name)))) OR (EXISTS ( SELECT 1
-                           FROM pg_matviews
-                          WHERE ((pg_matviews.schemaname = hdb_function_agg.return_type_schema) AND (pg_matviews.matviewname = hdb_function_agg.return_type_name))))) AS returns_table) e)) AS function_info
+                          WHERE (((tables.table_schema)::name = hdb_function_agg.return_type_schema) AND ((tables.table_name)::name = hdb_function_agg.return_type_name)))) AS returns_table) e)) AS function_info
    FROM hdb_catalog.hdb_function_agg;
 
 
-ALTER TABLE hdb_catalog.hdb_function_info_agg OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_function_info_agg OWNER TO flux;
 
 --
--- Name: hdb_permission; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_permission; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_permission (
@@ -586,10 +564,10 @@ CREATE TABLE hdb_catalog.hdb_permission (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_permission OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_permission OWNER TO flux;
 
 --
--- Name: hdb_permission_agg; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_permission_agg; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_permission_agg AS
@@ -601,10 +579,10 @@ CREATE VIEW hdb_catalog.hdb_permission_agg AS
   GROUP BY hdb_permission.table_schema, hdb_permission.table_name, hdb_permission.role_name;
 
 
-ALTER TABLE hdb_catalog.hdb_permission_agg OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_permission_agg OWNER TO flux;
 
 --
--- Name: hdb_primary_key; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_primary_key; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_primary_key AS
@@ -651,10 +629,10 @@ CREATE VIEW hdb_catalog.hdb_primary_key AS
   GROUP BY tc.table_schema, tc.table_name, tc.constraint_name;
 
 
-ALTER TABLE hdb_catalog.hdb_primary_key OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_primary_key OWNER TO flux;
 
 --
--- Name: hdb_query_collection; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_query_collection; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_query_collection (
@@ -665,10 +643,10 @@ CREATE TABLE hdb_catalog.hdb_query_collection (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_query_collection OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_query_collection OWNER TO flux;
 
 --
--- Name: hdb_relationship; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_relationship; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_relationship (
@@ -683,10 +661,10 @@ CREATE TABLE hdb_catalog.hdb_relationship (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_relationship OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_relationship OWNER TO flux;
 
 --
--- Name: hdb_remote_relationship; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_remote_relationship; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_remote_relationship (
@@ -697,10 +675,10 @@ CREATE TABLE hdb_catalog.hdb_remote_relationship (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_remote_relationship OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_remote_relationship OWNER TO flux;
 
 --
--- Name: hdb_role; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_role; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_role AS
@@ -712,10 +690,10 @@ CREATE VIEW hdb_catalog.hdb_role AS
            FROM hdb_catalog.hdb_action_permission) q;
 
 
-ALTER TABLE hdb_catalog.hdb_role OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_role OWNER TO flux;
 
 --
--- Name: hdb_scheduled_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_scheduled_event_invocation_logs (
@@ -724,14 +702,14 @@ CREATE TABLE hdb_catalog.hdb_scheduled_event_invocation_logs (
     status integer,
     request json,
     response json,
-    created_at timestamp with time zone DEFAULT now()
+    created_at timestamp without time zone DEFAULT now()
 );
 
 
-ALTER TABLE hdb_catalog.hdb_scheduled_event_invocation_logs OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_scheduled_event_invocation_logs OWNER TO flux;
 
 --
--- Name: hdb_scheduled_events; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_events; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_scheduled_events (
@@ -743,17 +721,17 @@ CREATE TABLE hdb_catalog.hdb_scheduled_events (
     header_conf json,
     status text DEFAULT 'scheduled'::text NOT NULL,
     tries integer DEFAULT 0 NOT NULL,
-    created_at timestamp with time zone DEFAULT now(),
+    created_at timestamp without time zone DEFAULT now(),
     next_retry_at timestamp with time zone,
     comment text,
     CONSTRAINT valid_status CHECK ((status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text])))
 );
 
 
-ALTER TABLE hdb_catalog.hdb_scheduled_events OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_scheduled_events OWNER TO flux;
 
 --
--- Name: hdb_schema_update_event; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_schema_update_event; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_schema_update_event (
@@ -763,10 +741,10 @@ CREATE TABLE hdb_catalog.hdb_schema_update_event (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_schema_update_event OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_schema_update_event OWNER TO flux;
 
 --
--- Name: hdb_table; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_table; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_table (
@@ -778,10 +756,10 @@ CREATE TABLE hdb_catalog.hdb_table (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_table OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_table OWNER TO flux;
 
 --
--- Name: hdb_table_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_table_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_table_info_agg AS
@@ -817,10 +795,10 @@ CREATE VIEW hdb_catalog.hdb_table_info_agg AS
   WHERE ("table".relkind = ANY (ARRAY['r'::"char", 't'::"char", 'v'::"char", 'm'::"char", 'f'::"char", 'p'::"char"]));
 
 
-ALTER TABLE hdb_catalog.hdb_table_info_agg OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_table_info_agg OWNER TO flux;
 
 --
--- Name: hdb_unique_constraint; Type: VIEW; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_unique_constraint; Type: VIEW; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE VIEW hdb_catalog.hdb_unique_constraint AS
@@ -834,10 +812,10 @@ CREATE VIEW hdb_catalog.hdb_unique_constraint AS
   GROUP BY tc.table_name, tc.constraint_schema, tc.constraint_name;
 
 
-ALTER TABLE hdb_catalog.hdb_unique_constraint OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_unique_constraint OWNER TO flux;
 
 --
--- Name: hdb_version; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_version; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.hdb_version (
@@ -849,10 +827,10 @@ CREATE TABLE hdb_catalog.hdb_version (
 );
 
 
-ALTER TABLE hdb_catalog.hdb_version OWNER TO mintbase;
+ALTER TABLE hdb_catalog.hdb_version OWNER TO flux;
 
 --
--- Name: remote_schemas; Type: TABLE; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas; Type: TABLE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_catalog.remote_schemas (
@@ -863,10 +841,10 @@ CREATE TABLE hdb_catalog.remote_schemas (
 );
 
 
-ALTER TABLE hdb_catalog.remote_schemas OWNER TO mintbase;
+ALTER TABLE hdb_catalog.remote_schemas OWNER TO flux;
 
 --
--- Name: remote_schemas_id_seq; Type: SEQUENCE; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas_id_seq; Type: SEQUENCE; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE SEQUENCE hdb_catalog.remote_schemas_id_seq
@@ -877,17 +855,17 @@ CREATE SEQUENCE hdb_catalog.remote_schemas_id_seq
     CACHE 1;
 
 
-ALTER TABLE hdb_catalog.remote_schemas_id_seq OWNER TO mintbase;
+ALTER TABLE hdb_catalog.remote_schemas_id_seq OWNER TO flux;
 
 --
--- Name: remote_schemas_id_seq; Type: SEQUENCE OWNED BY; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas_id_seq; Type: SEQUENCE OWNED BY; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER SEQUENCE hdb_catalog.remote_schemas_id_seq OWNED BY hdb_catalog.remote_schemas.id;
 
 
 --
--- Name: hdb_instances_ref; Type: TABLE; Schema: hdb_pro_catalog; Owner: mintbase
+-- Name: hdb_instances_ref; Type: TABLE; Schema: hdb_pro_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_pro_catalog.hdb_instances_ref (
@@ -896,10 +874,10 @@ CREATE TABLE hdb_pro_catalog.hdb_instances_ref (
 );
 
 
-ALTER TABLE hdb_pro_catalog.hdb_instances_ref OWNER TO mintbase;
+ALTER TABLE hdb_pro_catalog.hdb_instances_ref OWNER TO flux;
 
 --
--- Name: hdb_pro_config; Type: TABLE; Schema: hdb_pro_catalog; Owner: mintbase
+-- Name: hdb_pro_config; Type: TABLE; Schema: hdb_pro_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_pro_catalog.hdb_pro_config (
@@ -909,10 +887,10 @@ CREATE TABLE hdb_pro_catalog.hdb_pro_config (
 );
 
 
-ALTER TABLE hdb_pro_catalog.hdb_pro_config OWNER TO mintbase;
+ALTER TABLE hdb_pro_catalog.hdb_pro_config OWNER TO flux;
 
 --
--- Name: hdb_pro_state; Type: TABLE; Schema: hdb_pro_catalog; Owner: mintbase
+-- Name: hdb_pro_state; Type: TABLE; Schema: hdb_pro_catalog; Owner: flux
 --
 
 CREATE TABLE hdb_pro_catalog.hdb_pro_state (
@@ -924,46 +902,10 @@ CREATE TABLE hdb_pro_catalog.hdb_pro_state (
 );
 
 
-ALTER TABLE hdb_pro_catalog.hdb_pro_state OWNER TO mintbase;
+ALTER TABLE hdb_pro_catalog.hdb_pro_state OWNER TO flux;
 
 --
--- Name: minters; Type: TABLE; Schema: public; Owner: mintbase
---
-
-CREATE TABLE public.minters (
-    id integer NOT NULL,
-    account text NOT NULL,
-    store text NOT NULL,
-    enabled boolean DEFAULT true NOT NULL
-);
-
-
-ALTER TABLE public.minters OWNER TO mintbase;
-
---
--- Name: minters_id_seq; Type: SEQUENCE; Schema: public; Owner: mintbase
---
-
-CREATE SEQUENCE public.minters_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.minters_id_seq OWNER TO mintbase;
-
---
--- Name: minters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: mintbase
---
-
-ALTER SEQUENCE public.minters_id_seq OWNED BY public.minters.id;
-
-
---
--- Name: stores; Type: TABLE; Schema: public; Owner: mintbase
+-- Name: stores; Type: TABLE; Schema: public; Owner: flux
 --
 
 CREATE TABLE public.stores (
@@ -976,15 +918,14 @@ CREATE TABLE public.stores (
     "transferCount" numeric,
     owner text,
     "valueCount" numeric DEFAULT 0,
-    "timestamp" timestamp with time zone DEFAULT now() NOT NULL,
-    burned boolean DEFAULT false NOT NULL
+    "timestamp" timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
-ALTER TABLE public.stores OWNER TO mintbase;
+ALTER TABLE public.stores OWNER TO flux;
 
 --
--- Name: things; Type: TABLE; Schema: public; Owner: mintbase
+-- Name: things; Type: TABLE; Schema: public; Owner: flux
 --
 
 CREATE TABLE public.things (
@@ -998,15 +939,15 @@ CREATE TABLE public.things (
 );
 
 
-ALTER TABLE public.things OWNER TO mintbase;
+ALTER TABLE public.things OWNER TO flux;
 
 --
--- Name: tokens; Type: TABLE; Schema: public; Owner: mintbase
+-- Name: tokens; Type: TABLE; Schema: public; Owner: flux
 --
 
 CREATE TABLE public.tokens (
     id text DEFAULT timeofday() NOT NULL,
-    "tokenId" text DEFAULT timeofday() NOT NULL,
+    "tokenId" text NOT NULL,
     "metaId" text,
     price text,
     burned boolean DEFAULT false NOT NULL,
@@ -1017,37 +958,29 @@ CREATE TABLE public.tokens (
 );
 
 
-ALTER TABLE public.tokens OWNER TO mintbase;
+ALTER TABLE public.tokens OWNER TO flux;
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: mintbase
+-- Name: users; Type: TABLE; Schema: public; Owner: flux
 --
 
 CREATE TABLE public.users (
     id text NOT NULL,
-    avatar text,
-    weee text
+    avatar text
 );
 
 
-ALTER TABLE public.users OWNER TO mintbase;
+ALTER TABLE public.users OWNER TO flux;
 
 --
--- Name: remote_schemas id; Type: DEFAULT; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas id; Type: DEFAULT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.remote_schemas ALTER COLUMN id SET DEFAULT nextval('hdb_catalog.remote_schemas_id_seq'::regclass);
 
 
 --
--- Name: minters id; Type: DEFAULT; Schema: public; Owner: mintbase
---
-
-ALTER TABLE ONLY public.minters ALTER COLUMN id SET DEFAULT nextval('public.minters_id_seq'::regclass);
-
-
---
--- Name: event_invocation_logs event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_invocation_logs event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.event_invocation_logs
@@ -1055,7 +988,7 @@ ALTER TABLE ONLY hdb_catalog.event_invocation_logs
 
 
 --
--- Name: event_log event_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log event_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.event_log
@@ -1063,7 +996,7 @@ ALTER TABLE ONLY hdb_catalog.event_log
 
 
 --
--- Name: event_triggers event_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_triggers event_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.event_triggers
@@ -1071,7 +1004,7 @@ ALTER TABLE ONLY hdb_catalog.event_triggers
 
 
 --
--- Name: hdb_action_log hdb_action_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action_log hdb_action_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_action_log
@@ -1079,7 +1012,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_action_log
 
 
 --
--- Name: hdb_action_permission hdb_action_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action_permission hdb_action_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_action_permission
@@ -1087,7 +1020,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_action_permission
 
 
 --
--- Name: hdb_action hdb_action_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_action hdb_action_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_action
@@ -1095,7 +1028,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_action
 
 
 --
--- Name: hdb_allowlist hdb_allowlist_collection_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_allowlist hdb_allowlist_collection_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_allowlist
@@ -1103,7 +1036,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_allowlist
 
 
 --
--- Name: hdb_computed_field hdb_computed_field_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_computed_field hdb_computed_field_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_computed_field
@@ -1111,7 +1044,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_computed_field
 
 
 --
--- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
@@ -1119,7 +1052,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
 
 
 --
--- Name: hdb_cron_events hdb_cron_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_events hdb_cron_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_cron_events
@@ -1127,7 +1060,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_cron_events
 
 
 --
--- Name: hdb_cron_triggers hdb_cron_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_triggers hdb_cron_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_cron_triggers
@@ -1135,7 +1068,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_cron_triggers
 
 
 --
--- Name: hdb_function hdb_function_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_function hdb_function_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_function
@@ -1143,7 +1076,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_function
 
 
 --
--- Name: hdb_permission hdb_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_permission hdb_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_permission
@@ -1151,7 +1084,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_permission
 
 
 --
--- Name: hdb_query_collection hdb_query_collection_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_query_collection hdb_query_collection_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_query_collection
@@ -1159,7 +1092,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_query_collection
 
 
 --
--- Name: hdb_relationship hdb_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_relationship hdb_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_relationship
@@ -1167,7 +1100,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_relationship
 
 
 --
--- Name: hdb_remote_relationship hdb_remote_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_remote_relationship hdb_remote_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
@@ -1175,7 +1108,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
 
 
 --
--- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_scheduled_event_invocation_logs
@@ -1183,7 +1116,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_scheduled_event_invocation_logs
 
 
 --
--- Name: hdb_scheduled_events hdb_scheduled_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_events hdb_scheduled_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_scheduled_events
@@ -1191,7 +1124,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_scheduled_events
 
 
 --
--- Name: hdb_table hdb_table_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_table hdb_table_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_table
@@ -1199,7 +1132,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_table
 
 
 --
--- Name: hdb_version hdb_version_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_version hdb_version_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_version
@@ -1207,7 +1140,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_version
 
 
 --
--- Name: remote_schemas remote_schemas_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas remote_schemas_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.remote_schemas
@@ -1215,7 +1148,7 @@ ALTER TABLE ONLY hdb_catalog.remote_schemas
 
 
 --
--- Name: remote_schemas remote_schemas_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: remote_schemas remote_schemas_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.remote_schemas
@@ -1223,7 +1156,7 @@ ALTER TABLE ONLY hdb_catalog.remote_schemas
 
 
 --
--- Name: hdb_pro_config hdb_pro_config_pkey; Type: CONSTRAINT; Schema: hdb_pro_catalog; Owner: mintbase
+-- Name: hdb_pro_config hdb_pro_config_pkey; Type: CONSTRAINT; Schema: hdb_pro_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_pro_catalog.hdb_pro_config
@@ -1231,7 +1164,7 @@ ALTER TABLE ONLY hdb_pro_catalog.hdb_pro_config
 
 
 --
--- Name: hdb_pro_state hdb_pro_state_pkey; Type: CONSTRAINT; Schema: hdb_pro_catalog; Owner: mintbase
+-- Name: hdb_pro_state hdb_pro_state_pkey; Type: CONSTRAINT; Schema: hdb_pro_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_pro_catalog.hdb_pro_state
@@ -1239,15 +1172,7 @@ ALTER TABLE ONLY hdb_pro_catalog.hdb_pro_state
 
 
 --
--- Name: minters minters_pkey; Type: CONSTRAINT; Schema: public; Owner: mintbase
---
-
-ALTER TABLE ONLY public.minters
-    ADD CONSTRAINT minters_pkey PRIMARY KEY (id);
-
-
---
--- Name: stores stores_id_key; Type: CONSTRAINT; Schema: public; Owner: mintbase
+-- Name: stores stores_id_key; Type: CONSTRAINT; Schema: public; Owner: flux
 --
 
 ALTER TABLE ONLY public.stores
@@ -1255,15 +1180,7 @@ ALTER TABLE ONLY public.stores
 
 
 --
--- Name: stores stores_pkey; Type: CONSTRAINT; Schema: public; Owner: mintbase
---
-
-ALTER TABLE ONLY public.stores
-    ADD CONSTRAINT stores_pkey PRIMARY KEY (id);
-
-
---
--- Name: things things_id_key; Type: CONSTRAINT; Schema: public; Owner: mintbase
+-- Name: things things_id_key; Type: CONSTRAINT; Schema: public; Owner: flux
 --
 
 ALTER TABLE ONLY public.things
@@ -1271,7 +1188,7 @@ ALTER TABLE ONLY public.things
 
 
 --
--- Name: tokens tokens_id_key; Type: CONSTRAINT; Schema: public; Owner: mintbase
+-- Name: tokens tokens_id_key; Type: CONSTRAINT; Schema: public; Owner: flux
 --
 
 ALTER TABLE ONLY public.tokens
@@ -1279,7 +1196,7 @@ ALTER TABLE ONLY public.tokens
 
 
 --
--- Name: users users_id_key; Type: CONSTRAINT; Schema: public; Owner: mintbase
+-- Name: users users_id_key; Type: CONSTRAINT; Schema: public; Owner: flux
 --
 
 ALTER TABLE ONLY public.users
@@ -1287,84 +1204,77 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: event_invocation_logs_event_id_idx; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_invocation_logs_event_id_idx; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX event_invocation_logs_event_id_idx ON hdb_catalog.event_invocation_logs USING btree (event_id);
 
 
 --
--- Name: event_log_created_at_idx; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log_created_at_idx; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX event_log_created_at_idx ON hdb_catalog.event_log USING btree (created_at);
 
 
 --
--- Name: event_log_delivered_idx; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log_delivered_idx; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX event_log_delivered_idx ON hdb_catalog.event_log USING btree (delivered);
 
 
 --
--- Name: event_log_locked_idx; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log_locked_idx; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX event_log_locked_idx ON hdb_catalog.event_log USING btree (locked);
 
 
 --
--- Name: event_log_trigger_name_idx; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_log_trigger_name_idx; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX event_log_trigger_name_idx ON hdb_catalog.event_log USING btree (trigger_name);
 
 
 --
--- Name: hdb_cron_event_status; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_event_status; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX hdb_cron_event_status ON hdb_catalog.hdb_cron_events USING btree (status);
 
 
 --
--- Name: hdb_scheduled_event_status; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_event_status; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE INDEX hdb_scheduled_event_status ON hdb_catalog.hdb_scheduled_events USING btree (status);
 
 
 --
--- Name: hdb_schema_update_event_one_row; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_schema_update_event_one_row; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE UNIQUE INDEX hdb_schema_update_event_one_row ON hdb_catalog.hdb_schema_update_event USING btree (((occurred_at IS NOT NULL)));
 
 
 --
--- Name: hdb_version_one_row; Type: INDEX; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_version_one_row; Type: INDEX; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE UNIQUE INDEX hdb_version_one_row ON hdb_catalog.hdb_version USING btree (((version IS NOT NULL)));
 
 
 --
--- Name: hdb_table event_trigger_table_name_update_trigger; Type: TRIGGER; Schema: hdb_catalog; Owner: mintbase
---
-
-CREATE TRIGGER event_trigger_table_name_update_trigger AFTER UPDATE ON hdb_catalog.hdb_table FOR EACH ROW EXECUTE FUNCTION hdb_catalog.event_trigger_table_name_update();
-
-
---
--- Name: hdb_schema_update_event hdb_schema_update_event_notifier; Type: TRIGGER; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_schema_update_event hdb_schema_update_event_notifier; Type: TRIGGER; Schema: hdb_catalog; Owner: flux
 --
 
 CREATE TRIGGER hdb_schema_update_event_notifier AFTER INSERT OR UPDATE ON hdb_catalog.hdb_schema_update_event FOR EACH ROW EXECUTE FUNCTION hdb_catalog.hdb_schema_update_event_notifier();
 
 
 --
--- Name: event_invocation_logs event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_invocation_logs event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.event_invocation_logs
@@ -1372,7 +1282,15 @@ ALTER TABLE ONLY hdb_catalog.event_invocation_logs
 
 
 --
--- Name: hdb_action_permission hdb_action_permission_action_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: event_triggers event_triggers_schema_name_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
+--
+
+ALTER TABLE ONLY hdb_catalog.event_triggers
+    ADD CONSTRAINT event_triggers_schema_name_table_name_fkey FOREIGN KEY (schema_name, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_action_permission hdb_action_permission_action_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_action_permission
@@ -1380,7 +1298,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_action_permission
 
 
 --
--- Name: hdb_allowlist hdb_allowlist_collection_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_allowlist hdb_allowlist_collection_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_allowlist
@@ -1388,7 +1306,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_allowlist
 
 
 --
--- Name: hdb_computed_field hdb_computed_field_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_computed_field hdb_computed_field_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_computed_field
@@ -1396,7 +1314,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_computed_field
 
 
 --
--- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
@@ -1404,7 +1322,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
 
 
 --
--- Name: hdb_cron_events hdb_cron_events_trigger_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_cron_events hdb_cron_events_trigger_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_cron_events
@@ -1412,7 +1330,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_cron_events
 
 
 --
--- Name: hdb_permission hdb_permission_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_permission hdb_permission_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_permission
@@ -1420,7 +1338,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_permission
 
 
 --
--- Name: hdb_relationship hdb_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_relationship hdb_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_relationship
@@ -1428,7 +1346,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_relationship
 
 
 --
--- Name: hdb_remote_relationship hdb_remote_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_remote_relationship hdb_remote_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
@@ -1436,7 +1354,7 @@ ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
 
 
 --
--- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: mintbase
+-- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: flux
 --
 
 ALTER TABLE ONLY hdb_catalog.hdb_scheduled_event_invocation_logs

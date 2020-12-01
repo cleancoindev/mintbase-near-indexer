@@ -1,3 +1,4 @@
+use bigdecimal::BigDecimal;
 use diesel::{
   prelude::*,
   r2d2::{ConnectionManager, Pool},
@@ -44,6 +45,7 @@ pub async fn process_logs(
   for log in outcome.logs {
     let json: Value = serde_json::from_str(log.as_str())?;
     println!("type: {:?} args: {:?}", &json["type"], &json["params"]);
+
     execute_log(pool, &json["type"], &json["params"]).await;
   }
 
@@ -83,10 +85,16 @@ pub async fn execute_log(
   }
 }
 
+pub async fn update_indexer(pool: &Pool<ConnectionManager<PgConnection>>, height: u64) {
+  diesel::update(schema::indexers::table.filter(schema::indexers::dsl::network.eq("testnet")))
+    .set(schema::indexers::dsl::syncedBlock.eq(height.to_string()))
+    .execute_async(pool)
+    .await
+    .expect("updated store burned failed");
+}
+
 pub async fn add_store(pool: &Pool<ConnectionManager<PgConnection>>, params: &Value) {
   let store: structs::Store = structs::Store::from_args(params);
-
-  println!("store to addd!----{:?}", store);
 
   diesel::insert_into(schema::stores::table)
     .values(store)

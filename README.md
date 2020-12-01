@@ -100,9 +100,5 @@ $ screen -ls | grep pts | cut -d. -f1 | awk '{print $1}' | xargs kill
 
 
 
-## Log into docker postgress
-```
-$ sudo docker ps -a
-$ sudo docker exec -it ecc3bf1685fb bash
-$ psql mintbase flux
-```
+
+
