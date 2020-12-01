@@ -128,8 +128,8 @@ pub struct Indexer {
 impl Indexer {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      network: args["network"].as_str().unwrap().to_string(),
-      syncedBlock: args["syncedBlock"].as_str().unwrap().to_string(),
+      network: "any".to_string(),
+      syncedBlock: "any".to_string(),
     }
   }
 }
