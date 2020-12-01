@@ -88,3 +88,13 @@ users (
 	avitar -> Text,
 	}
 }
+
+table! {
+indexers (
+	network,
+	syncedBlock,
+) {
+	network -> Text,
+	syncedBlock -> Text,
+	}
+}

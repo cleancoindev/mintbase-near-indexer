@@ -117,3 +117,19 @@ impl User {
     }
   }
 }
+
+#[allow(non_snake_case)]
+#[derive(Insertable, Clone, Debug)]
+pub struct Indexer {
+  network: String,
+  syncedBlock: String,
+}
+
+impl Indexer {
+  pub fn from_args(args: &Value) -> Self {
+    Self {
+      network: args["network"].as_str().unwrap().to_string(),
+      syncedBlock: args["syncedBlock"].as_str().unwrap().to_string(),
+    }
+  }
+}
