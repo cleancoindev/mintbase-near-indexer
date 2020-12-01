@@ -38,7 +38,6 @@ async fn listen_blocks(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>
 
     for chunk in streamer_message.chunks {
       for outcome in chunk.receipt_execution_outcomes {
-        // let (_, outcome) = tx_res;
         let outcome = db::continue_if_valid_mintbase_receipt(outcome.execution_outcome);
         if outcome.is_none() {
           continue;
