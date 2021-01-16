@@ -22,7 +22,7 @@ impl Store {
       id: args["id"].as_str().unwrap().to_string(),
       owner: args["owner_id"].as_str().unwrap().to_string(),
       name: args["id"].as_str().unwrap().to_string(),
-      symbol: args["symbol"].as_str().unwrap().to_string(),
+      symbol: args["id"].as_str().unwrap().to_string(),
       boughtCount: BigDecimal::from_str("3").unwrap(),
       tokenCount: BigDecimal::from_str("0").unwrap(),
       valueCount: BigDecimal::from_str("0").unwrap(),
