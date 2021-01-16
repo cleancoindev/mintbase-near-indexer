@@ -61,9 +61,7 @@ pub struct Token {
   id: String,
   tokenId: String,
   metaId: String,
-  price: String,
   burned: bool,
-  state: String,
   transferCount: BigDecimal,
   storeId: String,
   ownerId: String,
@@ -73,11 +71,9 @@ impl Token {
   pub fn from_args(args: &Value) -> Self {
     Self {
       id: args["id"].as_str().unwrap().to_string(),
-      tokenId: args["token_id"].as_str().unwrap().to_string(),
+      tokenId: args["id"].as_str().unwrap().to_string(),
       metaId: args["meta_id"].as_str().unwrap().to_string(),
-      price: args["price"].as_str().unwrap().to_string(),
       burned: false,
-      state: args["state"].as_str().unwrap().to_string(),
       transferCount: BigDecimal::from_str("1").unwrap(),
       storeId: args["store"].as_str().unwrap().to_string(),
       ownerId: args["minter"].as_str().unwrap().to_string(),
