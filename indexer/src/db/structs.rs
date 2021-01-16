@@ -45,7 +45,7 @@ pub struct Thing {
 impl Thing {
   pub fn from_args(args: &Value) -> Self {
     Self {
-      id: args["id"].as_str().unwrap().to_string(),
+      id: args["meta_id"].as_str().unwrap().to_string(),
       minter: args["minter"].as_str().unwrap().to_string(),
       burned: false,
       forSale: false,
