@@ -93,9 +93,9 @@ This will create a local copy of the Mintbase Indexer PostgreSQL database and ru
 
 ```
 $ screen
-//  Ctrl + A, and then Ctrl + D
 $ screen -ls | grep pts | cut -d. -f1 | awk '{print $1}' | xargs kill
-
+// Close
+$  Ctrl + A, and then Ctrl + D
 ```
 
 
